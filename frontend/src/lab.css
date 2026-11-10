@@ -1,0 +1,1051 @@
+:root {
+  color-scheme: dark;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  color: #d4e8e5;
+  background: #060c14;
+}
+.start-panel {position:absolute;left:20px;top:76px;z-index:12;max-width:340px;padding:14px;border:1px solid #45605a;border-radius:12px;background:#0b171bea;backdrop-filter:blur(12px);}
+.start-panel>div {display:flex;align-items:center;gap:10px;margin:8px 0;}
+.start-panel label {display:flex;align-items:center;gap:4px;min-width:0;}
+.start-panel input {width:72px;min-width:0;color:inherit;background:#15282c;border:1px solid #36514f;border-radius:5px;padding:5px;}
+.start-panel small {font-size:9px;white-space:nowrap;}
+.start-panel [data-help] {position:relative;}
+.start-panel [data-help]::after {content:attr(data-help);position:absolute;left:0;top:calc(100% + 9px);z-index:30;width:max-content;max-width:260px;padding:9px 11px;border:1px solid #57766e;border-radius:7px;background:#0b171b;color:#e0f1eb;font-size:12px;line-height:1.45;font-weight:normal;text-align:left;white-space:normal;box-shadow:0 5px 18px #0008;pointer-events:none;visibility:hidden;opacity:0;}
+.start-panel [data-help]:hover::after,.start-panel [data-help]:focus-within::after {visibility:visible;opacity:1;}
+.start-panel input[aria-label="Starting world seed"] {width:120px;}
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible {
+  outline: 2px solid #e4f9ed;
+  outline-offset: 5px;
+}
+button:disabled {
+  opacity: 0.22;
+  cursor: default;
+}
+svg {
+  display: block;
+  flex-shrink: 0;
+}
+.lab {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #060c14;
+}
+.lab-map {
+  position: absolute;
+  inset: 0;
+}
+.corner-controls {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+.icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid #b4dadb22;
+  border-radius: 50%;
+  background: #08131bd9;
+  color: #a3bcbf;
+  transition:
+    color 0.16s,
+    background 0.16s,
+    transform 0.16s;
+  box-shadow: 0 4px 18px #0003;
+}
+.icon-button:hover {
+  background: #213c42;
+  color: #e4fff4;
+  transform: translateY(-2px);
+}
+.icon-button.active {
+  color: #9ce3cc;
+  border-color: #9ce3cc70;
+  background: #153831dc;
+}
+.hive-orbits {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  gap: 14px;
+  padding: 5px;
+  border-radius: 40px;
+  background: #07131b99;
+  border: 1px solid #92bbbd14;
+  max-width: 60vw;
+  overflow: auto;
+}
+.hive-orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  opacity: 0.7;
+}
+.hive-orbit.active,
+.hive-orbit:hover {
+  opacity: 1;
+  background: #b6e9dd0a;
+  border-color: currentColor;
+}
+.hive-shape {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+}
+.shape-0 {
+  border-radius: 50%;
+}
+.shape-1 {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.shape-2 {
+  transform: rotate(45deg);
+}
+.spawn-controls {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 6;
+}
+.spawn-controls > .icon-button {
+  order: 2;
+}
+.spawn-menu {
+  display: flex;
+  gap: 8px;
+  animation: emerge 0.18s ease-out;
+}
+.placement-glyph {
+  color: #e5d2a1;
+  opacity: 0.8;
+  order: 1;
+}
+.placing .maplibregl-canvas-container {
+  cursor: crosshair;
+}
+.globe-member {
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #9eeed940;
+  border-radius: 50%;
+  background: #06151beb;
+  box-shadow: 0 0 25px #050d14b0;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+.globe-member svg {
+  width: 24px;
+  height: 24px;
+}
+.globe-member.selected {
+  border-color: currentColor;
+  box-shadow: 0 0 22px #d3e9e033;
+}
+.globe-member.dragonfly {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: none;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+  box-shadow: 0 0 5px currentColor;
+}
+.globe-member.dragonfly svg {
+  width: 12px;
+  height: 12px;
+  stroke: #07151b;
+  pointer-events: none;
+}
+.member-dock {
+  position: absolute;
+  z-index: 5;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  max-width: calc(100vw - 230px);
+  overflow: auto;
+  gap: 2px;
+  border: 1px solid #9bd9cf26;
+  border-radius: 22px;
+  background: #08141de8;
+  padding: 8px;
+  box-shadow: 0 10px 40px #0006;
+  color: var(--hive);
+  animation: emerge 0.25s ease-out;
+}
+.member-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 132px;
+  padding: 12px 15px;
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: inherit;
+  transition: background 0.18s;
+}
+.member-card:hover {
+  background: #b5e2da12;
+}
+.member-sigil {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.member-sigil > svg + svg {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: 0.18s;
+}
+.member-card:hover .member-sigil > svg + svg {
+  opacity: 0.7;
+  transform: translateX(0);
+}
+.coordinates {
+  display: grid;
+  gap: 4px;
+  color: #b1c4c7;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.coord-alt {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+  color: #799799;
+}
+.global-radar {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 240px;
+  z-index: 4;
+  border: 1px solid #95bdc322;
+  border-radius: 50%;
+  box-shadow: 0 6px 30px #0002;
+  background: #07131bc9;
+}
+.global-radar > svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.radar-contact {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  padding: 3px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  border-radius: 50%;
+}
+.radar-contact:hover,
+.radar-contact.self {
+  background: #c6e8df24;
+}
+.radar-origin {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--hive);
+}
+.radar-origin > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.flight-reticle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 84px;
+  height: 84px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+.flight-reticle > span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #bfe4df44;
+  border-radius: 50%;
+}
+.flight-reticle > i {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  top: 41px;
+  height: 1px;
+  background: #b5f0e2;
+  transform: translateY(var(--pitch)) rotate(var(--bank));
+}
+.flight-reticle > b {
+  position: absolute;
+  left: 39px;
+  top: 39px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #c9fae8;
+  border-radius: 50%;
+}
+.flight-instruments {
+  position: absolute;
+  left: 30px;
+  bottom: 35px;
+  width: 155px;
+  display: grid;
+  gap: 15px;
+  color: #cce4de;
+  z-index: 4;
+  filter: drop-shadow(0 2px 3px #000);
+}
+.instrument {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.instrument > svg {
+  color: #83a6a6;
+}
+.instrument > span {
+  font-size: 21px;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+.exposed-dot,
+.hidden-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--hive);
+  margin-left: 3px;
+}
+.hidden-dot {
+  background: transparent;
+  border: 1px solid #8dabb1;
+}
+.meter {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: #8dbf9f;
+}
+.meter > span {
+  height: 3px;
+  flex: 1;
+  background: #90baaa30;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.meter i {
+  display: block;
+  height: 100%;
+  background: var(--hive);
+}
+.weapon-controls {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  z-index: 5;
+  color: var(--hive);
+}
+.weapon-button {
+  position: relative;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #08151be8;
+  border: 1px solid #acd4c838;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  padding: 0;
+}
+.weapon-button:hover:not(:disabled) {
+  background: #294039;
+}
+.weapon-button.charging {
+  color: #f5ba8c;
+  animation: charge 1s infinite alternate;
+}
+.weapon-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  fill: none;
+  stroke: #c8e7de18;
+  stroke-width: 2;
+}
+.weapon-ring circle + circle {
+  stroke: #e6b985;
+  stroke-width: 2;
+}
+.spit-button > svg {
+  width: 36px;
+  height: 36px;
+}
+.incoming-symbol {
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  transform: translateX(-50%);
+  color: #ffbe8e;
+  animation: charge 0.6s infinite alternate;
+  pointer-events: none;
+}
+.loading-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  pointer-events: none;
+  z-index: 10;
+}
+.loading-orbit > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #a9d8cd25;
+  border-top: 2px solid #b8ecdb;
+  border-radius: 50%;
+  animation: orbit 1.2s linear infinite;
+  box-shadow: 0 0 35px #07131b;
+}
+.error-symbol {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  background: #312318;
+  color: #f2ba7f;
+  border: 1px solid #a86e48;
+  padding: 12px;
+  border-radius: 50%;
+  z-index: 10;
+}
+.lost-member {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #122026e8;
+  border: 1px solid #cf947c;
+  color: #d59b87;
+  border-radius: 50px;
+  padding: 25px;
+  z-index: 8;
+}
+.nuclear-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff7d0;
+  pointer-events: none;
+  z-index: 9;
+  animation: flash 0.8s ease-out forwards;
+}
+.maplibregl-ctrl-attrib {
+  font: 9px sans-serif !important;
+  opacity: 0.65;
+}
+.maplibregl-ctrl-bottom-right {
+  right: 4px;
+  bottom: 3px;
+}
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: #14212b;
+  min-height: 18px;
+  min-width: 18px;
+}
+.maplibregl-ctrl-attrib-button {
+  filter: invert(0.8);
+}
+.maplibregl-ctrl-logo {
+  display: none !important;
+}
+@keyframes emerge {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes charge {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes flash {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (max-width: 800px) {
+  .corner-controls {
+    top: 15px;
+    left: 15px;
+    gap: 6px;
+  }
+  .icon-button {
+    width: 40px;
+    height: 40px;
+  }
+  .hive-orbits {
+    top: 15px;
+    gap: 5px;
+  }
+  .global-radar {
+    top: 15px;
+    right: 15px;
+    width: 175px;
+  }
+  .member-dock {
+    bottom: 22px;
+    max-width: calc(100vw - 100px);
+    left: 15px;
+    transform: none;
+  }
+  .member-card {
+    min-width: 105px;
+    padding: 10px;
+    gap: 8px;
+  }
+  .coordinates {
+    font-size: 9px;
+  }
+  .member-sigil > svg + svg {
+    display: none;
+  }
+  .spawn-controls {
+    right: 18px;
+    bottom: 25px;
+  }
+  .flight-instruments {
+    bottom: 25px;
+    left: 20px;
+    width: 110px;
+    gap: 10px;
+  }
+  .instrument > span {
+    font-size: 18px;
+  }
+  .weapon-controls {
+    bottom: 20px;
+    gap: 12px;
+  }
+  .weapon-button {
+    width: 57px;
+    height: 57px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+.source-credit {
+  position: absolute;
+  right: 8px;
+  bottom: 5px;
+  z-index: 7;
+  color: #84979d;
+  font: 9px/1.4 sans-serif;
+}
+.source-credit summary {
+  list-style: none;
+  cursor: pointer;
+  float: right;
+  opacity: 0.6;
+}
+.source-credit summary::-webkit-details-marker {
+  display: none;
+}
+.source-credit > div {
+  margin-right: 23px;
+  background: #07131bf2;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.source-credit a {
+  color: #b3c9ca;
+  text-decoration: none;
+}
+.source-credit[open] summary {
+  opacity: 1;
+}
+/* Tutorial control. */
+.tutorial-toggle {
+  position: absolute;
+  top: 29px;
+  right: 28px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #0a1922d9;
+  border: 1px solid #adcfc929;
+  border-radius: 25px;
+  padding: 11px 15px;
+  color: #b4d0ca;
+  font-size: 12px;
+  z-index: 6;
+}
+.tutorial-toggle i {
+  display: block;
+  width: 28px;
+  height: 15px;
+  border: 1px solid #6c8d85;
+  border-radius: 12px;
+  position: relative;
+}
+.tutorial-toggle i:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6c8d85;
+  transition: translate 0.15s;
+}
+.tutorial-toggle[aria-checked="true"] {
+  border-color: #b7e9cd;
+  color: #c8f9df;
+}
+.tutorial-toggle[aria-checked="true"] i:after {
+  translate: 13px 0;
+  background: #b7e9cd;
+}
+.member-sigil > svg + svg {
+  opacity: 0.7;
+  transform: none;
+}
+.queen-card {
+  background: #b5e2da10;
+  border: 1px solid #b5e2da35;
+  min-width: 155px;
+}
+.queen-card .member-sigil > svg:first-child {
+  width: 37px;
+  height: 37px;
+}
+.globe-member.queen.selected {
+  width: 64px;
+  gap: 3px;
+  grid-template-columns: 28px 17px;
+}
+.globe-member .queen-play {
+  width: 17px;
+  height: 17px;
+}
+.tutorial-reference {
+  position: absolute;
+  left: 25px;
+  top: 94px;
+  width: 295px;
+  padding: 19px 21px;
+  border: 1px solid #a5d6c95c;
+  border-radius: 15px;
+  background: #081922f5;
+  z-index: 8;
+  color: #d5e7e2;
+  pointer-events: none;
+}
+.tutorial-reference header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.tutorial-reference header span {
+  margin-left: auto;
+  font-size: 9px;
+  color: #8da8a4;
+}
+.tutorial-reference strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.tutorial-reference dl {
+  display: grid;
+  grid-template-columns: 75px 1fr;
+  gap: 10px 10px;
+  font-size: 10px;
+  line-height: 1.4;
+  margin: 0;
+}
+.tutorial-reference dt {
+  color: #a2e4c8;
+}
+.tutorial-reference dd {
+  margin: 0;
+  color: #a9bfbc;
+}
+.tutorial-reference p {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #7e9d97;
+  margin: 16px 0 0;
+}
+.tutorial-explanation {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: min(370px, calc(100vw - 50px));
+  padding: 23px 25px;
+  background: #0a1d25f5;
+  border: 1px solid #9dd5bd80;
+  border-radius: 16px;
+  box-shadow: 0 12px 50px #0007;
+  pointer-events: none;
+}
+.tutorial-explanation h2 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #c1eed8;
+  margin: 0 0 12px;
+}
+.tutorial-explanation p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #b0c6c1;
+  margin: 0 0 20px;
+}
+.tutorial-explanation button {
+  pointer-events: auto;
+  display: block;
+  padding: 11px 17px;
+  border-radius: 8px;
+  border: 1px solid #9cd6b8;
+  background: #244a3d;
+  color: #d7fbe5;
+  font-size: 12px;
+}
+.tutorial-reference ~ .error-symbol {
+  z-index: 11;
+}
+@media (max-width: 800px) {
+  .tutorial-toggle {
+    top: 19px;
+    right: 15px;
+    font-size: 10px;
+    padding: 9px 11px;
+    gap: 7px;
+  }
+  .tutorial-reference {
+    left: 15px;
+    top: 75px;
+    width: 230px;
+    padding: 13px;
+    max-height: 45vh;
+    overflow: hidden;
+  }
+  .tutorial-reference dl {
+    font-size: 9px;
+    grid-template-columns: 58px 1fr;
+    gap: 5px;
+  }
+  .tutorial-reference header span,
+  .tutorial-reference p {
+    display: none;
+  }
+  .tutorial-explanation {
+    top: auto;
+    bottom: 115px;
+    transform: translateX(-50%);
+    padding: 16px;
+    left: 50%;
+  }
+  .tutorial-explanation h2 {
+    font-size: 14px;
+  }
+  .tutorial-explanation p {
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+}
+/* Global-scale neighbours need separate click targets, not overlapping pins. */
+.globe-member.queen {
+  z-index: 5;
+}
+.globe-member.queen.selected {
+  z-index: 6;
+}
+.globe-member.dragonfly {
+  z-index: 4;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border: 1px solid currentColor;
+  background: #0b1c24;
+  opacity: 1;
+}
+.globe-member.dragonfly svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+.globe-member.dragonfly:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 1px;
+  width: 44px;
+  background: currentColor;
+  opacity: 0.3;
+  transform-origin: left center;
+  transform: rotate(var(--leader-angle));
+  pointer-events: none;
+}
+
+/* Terrarium: symbol-only resource controls and unmistakable losses. */
+.resource-pin {
+  border: 1px solid #e5dc82;
+  background: #152426;
+  color: #eee793;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  z-index: 7;
+  box-shadow: 0 0 18px #e4db6a44;
+  cursor: pointer;
+}
+.resource-pin svg {
+  width: 18px;
+  height: 18px;
+}
+.resource-pin span {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 6px;
+  background: #101b21dd;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 10px;
+}
+.dead {
+  opacity: 0.85 !important;
+  filter: none;
+  color: #f38182 !important;
+}
+.death-cross {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: #ff767c;
+}
+.dead .queen-play {
+  display: none;
+}
+.dead .member-sigil {
+  color: #ff767c;
+}
+.lost-member {
+  color: #ff777d !important;
+  box-shadow: 0 0 0 100vmax #21060b55;
+}
+.cargo-instrument {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #e0db98;
+  font-size: 11px;
+}
+.spawn-menu {
+  gap: 10px;
+}
+
+.drop-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.drop-control input {
+  width: 80px;
+  border: 1px solid #d9dc9340;
+  background: #101b21;
+  color: #dddba9;
+  border-radius: 6px;
+  padding: 7px;
+  font-size: 11px;
+}
+.drop-control small {
+  font-size: 9px;
+  color: #dddba9;
+}
+.spawn-menu {
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.member-card.dead {
+  border-color: #f3818260;
+  background: #28131c;
+}
+.globe-member.dead {
+  background: #32151e;
+  border-color: #ff777d;
+}
+.death-cross {
+  opacity: 1;
+}
+
+.shelter-indicator {
+  display: inline-flex;
+  align-items: center;
+  pointer-events: auto;
+}
+.shelter-indicator.exposed {
+  color: #617879;
+  opacity: 0.55;
+}
+.shelter-indicator.protected {
+  color: #9ae9c4;
+  filter: drop-shadow(0 0 7px #75e3b7aa);
+}
+
+.radar-contact.charging {
+  animation: charge-warning 0.8s ease-in-out infinite alternate;
+  border-radius: 50%;
+}
+@keyframes charge-warning {
+  to {
+    box-shadow: 0 0 12px #f9bc7c;
+    background: #f9bc7c55;
+  }
+}
+
+/* Compact flight HUD; the map is the radar, not a second control panel. */
+.globe-radar{width:174px;height:174px;top:18px;right:18px;overflow:hidden;border-color:#9bc4bd30;background:#08131c;transition:width .15s,height .15s}
+
+.radar-map{position:absolute;inset:0;border-radius:50%;overflow:hidden}.radar-map .maplibregl-canvas{outline:none}
+.globe-radar>.radar-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.radar-overlay button{pointer-events:auto}
+.radar-centre{position:absolute;bottom:7px;left:calc(50% - 14px);display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:#07151dd9;color:var(--hive)}
+.mark-contact{background:#3a3020cc;color:#edcf83}.mark-contact.precise{box-shadow:0 0 0 1px #edcf83}
+.flight-instruments{bottom:20px;left:20px;width:auto;max-width:320px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;opacity:.85}.instrument{gap:5px}.instrument>span{font-size:13px}.flight-instruments .meter{width:100px;gap:5px}.cargo-instrument{font-size:10px;gap:4px}.shelter-indicator.covered{color:#d6bd76}.flight-editor-hidden{display:none}.weapon-controls{bottom:16px;gap:9px}.piloting .icon-button{width:34px;height:34px;padding:8px}.piloting .weapon-button{width:43px;height:43px}.piloting .weapon-button>svg:not(.weapon-ring){width:23px;height:23px}.piloting .corner-controls{top:16px;left:16px;gap:7px}.flight-reticle{opacity:.4;transform:translate(-50%,-50%) scale(.75)}
+@media(max-width:800px){.globe-radar{width:140px;height:140px}.flight-instruments{bottom:75px;left:12px;gap:8px;max-width:230px}.weapon-controls{bottom:15px}}
+
+.mark-dock{position:absolute;bottom:34px;left:15%;right:15%;display:flex;gap:3px;justify-content:center;pointer-events:none}.mark-dock button{pointer-events:auto;background:#1a231dc9;color:#a9b8a7;border:0;border-radius:50%;width:22px;height:22px;display:grid;place-items:center;padding:3px}.mark-dock .precise{color:#f8d58c;box-shadow:inset 0 0 0 1px #edcf8366}
+
+.globe-radar .radar-contact{width:24px;height:24px;padding:3px;background:#07151de8;box-shadow:inset 0 0 0 1px currentColor}.globe-radar .radar-contact.self{background:#355b52}.globe-radar .mark-contact{width:22px;height:22px;background:#3a3020ed}
+
+.flight-instruments{background:#06121bb3;border-radius:10px;padding:7px 9px;opacity:1;backdrop-filter:blur(4px);color:#dcebe7}
+
+.resource-pin[data-kind="mixed"] {width:44px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:2px;}
+.resource-pin[data-kind="mixed"] svg {width:16px;flex-shrink:0;}
+
+.radar-tag{pointer-events:auto;cursor:pointer}.radar-tag text{fill:#f8d58c;stroke:#07151d;stroke-width:3px;paint-order:stroke;font:10px system-ui}
+.radar-add-tag{position:absolute;bottom:8px;right:28px;width:26px;height:26px;padding:5px;display:grid;place-items:center;border:0;border-radius:50%;background:#07151de8;color:#f8d58c}
+.radar-tag-editor{position:absolute;inset:30% 4% auto;display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#07151df5;border:1px solid #8bafa96b;border-radius:8px;z-index:3}
+.radar-tag-editor input{width:100%;min-width:0;background:#12272d;color:#f8d58c;border:1px solid #8bafa96b;border-radius:4px;padding:5px}
+.radar-tag-editor button{background:transparent;color:#d6e5db;border:0;padding:4px}.radar-tag-editor output{font-size:10px;color:#f3ad9e}
+
+.globe-radar:focus-within{width:260px;height:260px}
+
+.autonomy-switch{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 10px;border:1px solid #68d9a266;border-radius:24px;background:#0b201bd9;color:#78e0a8;box-shadow:0 4px 18px #0003}
+.autonomy-switch.enabled{color:#ff8582;border-color:#f27d7d80;background:#2d1419e8}
+.autonomy-switch:disabled{opacity:.55}
+.switch-track{display:block;position:relative;width:27px;height:15px;border:1px solid currentColor;border-radius:12px}
+.switch-track i{position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:currentColor;transition:transform .15s}
+.enabled .switch-track i{transform:translateX(12px)}
+.hive-emblem{display:inline-flex;flex-shrink:0;vertical-align:middle}.hive-emblem svg{width:100%;height:100%;overflow:visible}
+.hive-orbit{width:52px;height:52px;padding:4px;opacity:.95}
+.hive-status{position:absolute;right:2px;bottom:3px;width:7px;height:7px;border-radius:50%;background:#78e0a8;box-shadow:0 0 0 2px #09151d}
+.autonomous .hive-status{background:#ff8582;box-shadow:0 0 8px #ff858260,0 0 0 2px #09151d}
+.hive-dead{position:absolute;bottom:0;left:0;color:#ff8582}
+.globe-member.queen>svg,.globe-member.dragonfly>svg{width:100%;height:100%}
+.member-dock>.autonomy-switch{flex-shrink:0}
+.piloting .autonomy-switch{height:34px;padding:0 8px;gap:5px}

@@ -1,0 +1,29 @@
+[package]
+name = "hug-gamer-backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "sync", "fs", "io-util"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["float_roundtrip"] }
+tower-http = { version = "0.6", features = ["cors", "trace", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+reqwest = { version = "0.12", default-features = false, features = ["native-tls"] }
+flate2 = "1"
+geozero = { version = "0.15.1", default-features = false, features = ["with-mvt", "with-geo"] }
+geo = "0.33.1"
+prost = "0.14"
+h3o = "0.11"
+rusqlite = { version = "0.37", features = ["bundled"] }
+zstd = "0.13"
+sha2 = "0.10"
+moka = { version = "0.12", features = ["sync", "future"] }
+image = { version = "0.25", default-features = false, features = ["png"] }
+rapier3d-f64 = { version = "0.36.1", features = ["enhanced-determinism"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

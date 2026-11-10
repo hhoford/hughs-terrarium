@@ -1,0 +1,11 @@
+{
+  "source": "https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO2022/data/60s/60s_surface_elev_gtif/ETOPO_2022_v1_60s_N90W180_surface.tif",
+  "source_sha256": "9d27d4b8ea8e76977e2988bca667d7c8fa68b927355feffcddd6b4875a7fd08e",
+  "artifact_sha256": "64b9e69ccdc352d553010fcd87727b6e4cd3ebb73b6284ce178269a39aefd1cd",
+  "width": 21600,
+  "rows_per_hemisphere": 330,
+  "latitude": "absolute latitude 84.5 to 90 degrees",
+  "sampling": "60 arc-second pixel centres; bilinear; ocean clamped to zero to match the game surface",
+  "dtype": "signed int16 metres, little-endian; north cap then reversed south cap",
+  "bytes": 3320979
+}
